@@ -41,6 +41,8 @@ function draw() {
 }
 
 let pag=0;
+let button;
+
 function mouseClicked() {
   if (pag == 0) {
     background('#F9F9F9'); //chiaro
@@ -58,8 +60,11 @@ function mouseClicked() {
   text('Dodicesimo Uomo',width / 2,  height / 50 *15);
   textSize(13);
   text('IL VERO TIFO',width / 2,  height / 50 *39);
+  button= createButton('inizia');
+  button.position(width/20*9,  height / 50*44);
+  button.mousePressed();
   } else if (pag == 1) {
-      window.open('index1.html','_self');
+      window.open('trombetta/index.html','_self');
       }
       pag++;
   }
