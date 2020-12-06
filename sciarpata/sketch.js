@@ -261,7 +261,7 @@ function draw() {
 //console.log (topPrediction);
 
 ///////cambio cartella //////////////////////////////////////////////////
-              if(i == 5){
+              if(i == 20){
                 window.open('../indexPausa.html','_self');//doppio puntino per andare nella cartella sopra
               }
   //////////////////////////////////////////////////////////////////

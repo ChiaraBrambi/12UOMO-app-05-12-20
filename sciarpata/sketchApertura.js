@@ -18,13 +18,8 @@ function draw() {
   imageMode(CENTER); //per pittogrammi
   image(logoIcon,  width/2 , height / 2, logoIcon.width/7, logoIcon.height/7);
 
-  push();
-  fill('#F9F9F9');
-  stroke('#877B85');
-  strokeWeight(3);
-  ellipse(width / 2, height/ 6*4.5, 70); //cerchio centrale
-  image(icon, width / 2, height / 6*4.5, icon.width / 2.5, icon.height / 2.5);
-  pop();
+  image(icon, width / 2, height / 6*4.5, icon.width /7.5, icon.height /7.5);
+
 
 
   //testo caratteristiche
