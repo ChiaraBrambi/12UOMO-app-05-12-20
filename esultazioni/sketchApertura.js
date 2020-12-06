@@ -1,11 +1,11 @@
 
 let logoIcon;
-let tIcon;
+let icon;
 /////////////////////////////////////////////////////////////////////////
 
 function preload() {
-  logoIcon = loadImage("./assets/immagini/logopausa.png");
-  tIcon = loadImage("./assets/immagini/trombetta.png"); //trombetta chiara
+  logoIcon = loadImage("./assets/logopausa.png");
+  icon = loadImage("./assets/noParola.png"); //trombetta chiara
 }
 /////////////////////////////////////////////////////////////////////////
 function setup() {
@@ -17,14 +17,8 @@ function draw() {
   background('#F9F9F9'); //chiaro
   imageMode(CENTER); //per pittogrammi
   image(logoIcon,  width/2 , height / 2, logoIcon.width/7, logoIcon.height/7);
+  image(icon, width / 2, height / 6*4.5, icon.width / 6, icon.height /6);
 
-  push();
-  fill('#F9F9F9');
-  stroke('#877B85');
-  strokeWeight(3);
-  ellipse(width / 2, height/ 6*4.5, 70); //cerchio centrale
-  image(tIcon, width / 2, height / 6*4.5, tIcon.width / 2.5, tIcon.height / 2.5);
-  pop();
 
 
   //testo caratteristiche
@@ -35,7 +29,7 @@ function draw() {
   //testo centrale
   textSize(15);
   fill('#877B85'); //4° colore PALETTE
-  text('TROMBETTA', width / 2, height / 6*4.9);
+  text('ESULTAZIONI', width / 2, height / 6*4.9);
   textSize(13);
   fill('#B7AEB5'); //3 PALETTE
   text('PREPARATI A TIFARE', width / 2, height / 6*5.1 );
@@ -43,7 +37,7 @@ function draw() {
 
 
 if(mouseIsPressed){
-   window.open('index1.html','_self');
+   window.open('index.html','_self');
 }
 }
 
