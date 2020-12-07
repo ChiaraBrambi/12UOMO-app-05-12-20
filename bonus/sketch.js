@@ -70,7 +70,7 @@ pop();
   }
 
 if(mouseIsPressed){
-   window.open('indexBonus.html','_self');
+   window.open('indexPausa.html','_self');
 }
 }
 
