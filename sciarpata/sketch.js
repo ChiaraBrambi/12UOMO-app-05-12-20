@@ -15,7 +15,7 @@ let input_utente = 200 //var utente usa la trobetta, preme bottone
 
 let opacità = 210 //opacità rettangolo tutorial
 let pronto //coordinzaione tutorial
-
+let bonus_server;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // teachable machine
 // https://www.npmjs.com/package/@teachablemachine/pose/v/0.8.4
@@ -168,7 +168,7 @@ function draw() {
       ellipse(w + 100, h * 45.5, 15);
       pop();
     }else if (contBonus === 22) {
-      window.open('../bonus-app12uomo/index.html','_self');//doppio puntino per andare nella cartella sopra
+      window.open('../bonus/index.html','_self');//doppio puntino per andare nella cartella sopra
     }
     ellipse(w + s, h * 45.5, 15);
     s = 25 * i;
