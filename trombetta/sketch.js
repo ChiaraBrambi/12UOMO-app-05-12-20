@@ -130,6 +130,17 @@ function draw() {
         ellipse(w + 50, h * 45.5, 15);
         ellipse(w + 75, h * 45.5, 15);
         pop();
+      }else if (contBonus === 19 || contBonus === 20 || contBonus === 21) {
+        push();
+        fill('#877B85');
+        ellipse(w, h * 45.5, 15);
+        ellipse(w + 25, h * 45.5, 15);
+        ellipse(w + 50, h * 45.5, 15);
+        ellipse(w + 75, h * 45.5, 15);
+        ellipse(w + 100, h * 45.5, 15);
+        pop();
+      }else if (contBonus === 22) {
+        window.open('../bonus-app12uomo/index.html','_self');//doppio puntino per andare nella cartella sopra
       }
       ellipse(w + s, h * 45.5, 15);
       s = 25 * i;
