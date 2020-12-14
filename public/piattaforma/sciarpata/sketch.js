@@ -14,14 +14,20 @@ let s = 0; //ellisse BONUS
 let alt = 1; //h dei rettangoli suono
 let i = 0; //regola ogni quanto cambia alt
 let p_coord = 0; //var coordinazione
-let contBonus = 0; //conta quando p_coord arriva a 100
 
 let feed_piattaforma = 0; //var piattaforma: quando alt!=1 viene incrementata
 let input_utente = 200 //var utente usa la trobetta, preme bottone
 
 let opacità = 210 //opacità rettangolo tutorial
 let pronto //coordinzaione tutorial
-let bonus_server;
+
+
+// variabili BONUS ////////////////////////////////////////////////////////////////////
+// se totale bonus apri un altra schermata
+let bonus_preso; //se i bonus sono tutti attivi apri un altra parte di sketch
+let contBonus; //conta quando p_coord arriva a 100
+
+
 
 //variabili per DASPO
 let daspo = false; //variabile che dice se daspo è attiva in questo momento
@@ -30,7 +36,7 @@ let incremento_daspo = 0;
 let op = 0; //opacità rettangolo daspo
 let timeout_daspo;
 
-let boulPausa=false;
+let boulPausa = false;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // teachable machine
@@ -82,6 +88,18 @@ function updateTesto(dataReceived) {
   testo = dataReceived //assegna a testo dati da server
 }
 
+// RICEZIONE BONUS
+socket.on("bonusIn", bonusServer);
+socket.on("bonusTotIn", bonusTotale_Ok);
+
+// UPDATE DA SERVER BONUS
+function bonusServer(dataReceived) {
+  contBonus = dataReceived; //assegna a contBonus dati da server
+}
+
+function bonusTotale_Ok(dataReceived) {
+  bonus_preso = dataReceived; //assegna a contBonus dati da server
+}
 ////////////////FINE COMUNICAZIONE SERVER/////////////////////////////////////
 
 
@@ -104,8 +122,7 @@ function preload() {
 /////////////////////////////////////////////////////////////////////////
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  frameRate(15); //rallenta
-
+  frameRate(25)
   capture = createCapture(VIDEO)
   capture.hide()
   init()
@@ -122,6 +139,12 @@ function setup() {
 
 /////////////////////////////////////////////////////////////////////////
 function draw() {
+
+  //CONTATORE i DEL TEMPO
+  if (frameCount % 70 == 0) { //multiplo di 50 incrementa i
+    i++
+  }
+
   background('#F9F9F9'); //chiaro
   imageMode(CENTER); //per pittogrammi
   noStroke();
@@ -171,29 +194,33 @@ function draw() {
 
   if (p_coord === 80) {
     contBonus++;
-  } //console.log('BONUS CONTATOR:' + contBonus);
+  }
+  console.log('BONUS CONTATOR:' + contBonus);
 
   //pallini BONUS
-  for (let i = 0; i < 6; i++) {
-    if (contBonus === 3 || contBonus === 4 || contBonus === 5) {
+  for (let i = 0; i < 6; i++) { // ogni 4 da il bonus
+    if (contBonus === 4 || contBonus === 5 || contBonus === 6 || contBonus === 7) {
       push();
       fill('#877B85');
       ellipse(w, h * 45.5, 15);
       pop();
-    } else if (contBonus === 6 || contBonus === 7 || contBonus === 8) {
+
+    } else if (contBonus === 8 || contBonus === 9 || contBonus === 10 || contBonus === 11) {
       push();
       fill('#877B85');
       ellipse(w, h * 45.5, 15);
       ellipse(w + 25, h * 45.5, 15);
       pop();
-    } else if (contBonus === 9 || contBonus === 10 || contBonus === 11 || contBonus === 12 || contBonus === 13) {
+
+    } else if (contBonus === 12 || contBonus === 13 || contBonus === 14 || contBonus === 15) {
       push();
       fill('#877B85');
       ellipse(w, h * 45.5, 15);
       ellipse(w + 25, h * 45.5, 15);
       ellipse(w + 50, h * 45.5, 15);
       pop();
-    } else if (contBonus === 14 || contBonus === 15 || contBonus === 16 || contBonus === 17 || contBonus === 18) {
+
+    } else if (contBonus === 16 || contBonus === 17 || contBonus === 18 || contBonus === 19) {
       push();
       fill('#877B85');
       ellipse(w, h * 45.5, 15);
@@ -201,7 +228,8 @@ function draw() {
       ellipse(w + 50, h * 45.5, 15);
       ellipse(w + 75, h * 45.5, 15);
       pop();
-    } else if (contBonus === 19 || contBonus === 20 || contBonus === 21) {
+
+    } else if (contBonus === 20 || contBonus === 21 || contBonus === 22 || contBonus === 23) {
       push();
       fill('#877B85');
       ellipse(w, h * 45.5, 15);
@@ -210,18 +238,23 @@ function draw() {
       ellipse(w + 75, h * 45.5, 15);
       ellipse(w + 100, h * 45.5, 15);
       pop();
-    } else if (contBonus === 22) {
-      window.open('../bonus/index.html', '_self'); //doppio puntino per andare nella cartella sopra
+
+    } else if (contBonus === 24) {
+
+      contBonus = 0; //azzerare i bonus
+      bonus_preso = 1; //per dire che hai completato una fascia di bonus
+      window.open('../bonus-app12uomo/index.html', '_self'); //doppio puntino per andare nella cartella sopra
     }
+
     ellipse(w + s, h * 45.5, 15);
     s = 25 * i;
+
+    //EMIT BONUS
+      socket.emit("bonusOut", contBonus);
+      socket.emit("bonusTotOut", bonus_preso);
   }
   ///////////////////////////////////////////////////////////////
 
-  //CONTATORE i DEL TEMPO
-  if (frameCount % 50 == 0) { //multiplo di 50 incrementa i
-    i++
-  }
 
   //PER LA BARRA DELLA PERCENTUALE
   if (topPrediction == 'up' && i % 2 == 0) {
@@ -266,7 +299,7 @@ function draw() {
 
   //TUTORIAL sciarpa
 
-  if ((i == 0 || i == 2)&(boulPausa==false)) {
+  if ((i == 0 || i == 2) & (boulPausa == false)) {
 
     document.getElementById("tutorial").style.display = "block";
     document.getElementById("tutorial2").src = "./assets/immagini/Tutorial-sciarpa-giu.gif";
@@ -276,7 +309,7 @@ function draw() {
       text('CORRETTO', w * 10, h * 31.5);
       p_coord = 70;
     }
-  } else if ((i == 1 || i == 3)&(boulPausa==false)) {
+  } else if ((i == 1 || i == 3) & (boulPausa == false)) {
     document.getElementById("tutorial").src = "./assets/immagini/Tutorial-sciarpa-su.gif";
     document.getElementById("tutorial2").style.display = "block";
     document.getElementById("tutorial").style.display = "none";
@@ -287,7 +320,7 @@ function draw() {
       text('NON COORDINATO', w * 10, h * 31.5);
       p_coord = 70;
     }
-  } else if(boulPausa==true){
+  } else if (boulPausa == true) {
     document.getElementById("tutorial2").style.display = "none";
     document.getElementById("tutorial").style.display = "none";
   }
@@ -296,8 +329,7 @@ function draw() {
   // FEED UTENTE (PALLINI COLORATI)
   if (topPrediction == 'up' && i % 2 == 0) { //alza la sciarpa
 
-
-    input_utente = 200;
+    input_utente = 147;
     push();
     var z = 25 + p_coord;
     tint(255, z * 3.5); // Display at half opacity
@@ -342,13 +374,13 @@ function draw() {
   console.log("tempo daspo " + incremento_daspo)
 
 
-//console.log (topPrediction);
+  //console.log (topPrediction);
 
-///////cambio cartella //////////////////////////////////////////////////
-if (i == 20) {
-  window.open('../indexPausa.html', '_self'); //doppio puntino per andare nella cartella sopra
-}
-//////////////////////////////////////////////////////////////////
+  ///////cambio cartella //////////////////////////////////////////////////
+  if (i == 20) {
+    window.open('../indexPausa.html', '_self'); //doppio puntino per andare nella cartella sopra
+  }
+  //////////////////////////////////////////////////////////////////
 }
 
 
@@ -398,7 +430,7 @@ function windowResized() {
 //funzioni per attivare la pausa
 function dispPausa() {
   socket.emit("stopTimer");
-  boulPausa=true;
+  boulPausa = true;
   document.getElementById("tutorial").style.display = "none";
   document.getElementById("tutorial2").style.display = "none";
   document.getElementById("schermo").style.backgroundColor = "#877B85";
@@ -411,7 +443,7 @@ function dispPausa() {
 
 function startTifo() {
   socket.emit("startTimer");
-  boulPausa=false;
+  boulPausa = false;
   document.getElementById("schermo").style.backgroundColor = "transparent";
   document.getElementById("startTifo").style.display = "none";
   document.getElementById("resetTifo").style.display = "none";
@@ -422,7 +454,7 @@ function startTifo() {
 
 function resetTifo() {
   socket.emit("resetTimer");
-  boulPausa=false;
+  boulPausa = false;
   document.getElementById("schermo").style.backgroundColor = "transparent";
   document.getElementById("startTifo").style.display = "none";
   document.getElementById("resetTifo").style.display = "none";
@@ -432,7 +464,7 @@ function resetTifo() {
 }
 
 function dispPausaSer() {
-  boulPausa=true;
+  boulPausa = true;
   document.getElementById("tutorial").style.display = "none";
   document.getElementById("tutorial2").style.display = "none";
   document.getElementById("schermo").style.backgroundColor = "#877B85";
@@ -444,7 +476,7 @@ function dispPausaSer() {
 }
 
 function startTifoSer() {
-  boulPausa=false;
+  boulPausa = false;
   document.getElementById("schermo").style.backgroundColor = "transparent";
   document.getElementById("startTifo").style.display = "none";
   document.getElementById("resetTifo").style.display = "none";
@@ -454,7 +486,7 @@ function startTifoSer() {
 }
 
 function resetTifoSer() {
-  boulPausa=false;
+  boulPausa = false;
   document.getElementById("schermo").style.backgroundColor = "transparent";
   document.getElementById("startTifo").style.display = "none";
   document.getElementById("resetTifo").style.display = "none";

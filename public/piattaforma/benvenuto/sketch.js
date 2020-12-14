@@ -41,7 +41,7 @@ function preload() {
   imm3 = loadImage("./assets/avversione.png");
   imm4 = loadImage("./assets/scaramanzia.png");
   testo_privacy = loadImage("./assets/testo.png");
-  strumenti = loadImage("./assets/strumenti.png");
+  strumenti = loadImage("./assets/ogg.png");
 
 }
 
