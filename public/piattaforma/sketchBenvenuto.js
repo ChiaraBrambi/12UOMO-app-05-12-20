@@ -8,18 +8,18 @@ let bonus_preso = 1;
 let contBonus = 12; //conta quando p_coord arriva a 100
 
 ///////////////COMUNICAZIONE SERVER/////////////////////////////////////
-// RICEZIONE BONUS
-socket.on("bonusIn", bonusServer);
-socket.on("bonusTotIn", bonusTotale_Ok);
-
-// UPDATE DA SERVER BONUS
-function bonusServer(dataReceived) {
-  contBonus = dataReceived; //assegna a contBonus dati da server
-}
-
-function bonusTotale_Ok(dataReceived) {
-  bonus_preso = dataReceived; //assegna a contBonus dati da server
-}
+// // RICEZIONE BONUS
+// socket.on("bonusIn", bonusServer);
+// socket.on("bonusTotIn", bonusTotale_Ok);
+//
+// // UPDATE DA SERVER BONUS
+// function bonusServer(dataReceived) {
+//   contBonus = dataReceived; //assegna a contBonus dati da server
+// }
+//
+// function bonusTotale_Ok(dataReceived) {
+//   bonus_preso = dataReceived; //assegna a contBonus dati da server
+// }
 
 /////////////////////////////////////////////////////////////////////////
 
@@ -35,11 +35,11 @@ function setup() {
 }
 
 /////////////////////////////////////////////////////////////////////////
-function draw(){
-  //EMIT BONUS
-    socket.emit("bonusOut", contBonus);
-    socket.emit("bonusTotOut", bonus_preso);
-}
+// function draw(){
+//   //EMIT BONUS
+//     socket.emit("bonusOut", contBonus);
+//     socket.emit("bonusTotOut", bonus_preso);
+// }
 /////////////////////////////////////////////////////////////////////////
 
 function mouseClicked() {//da programmare di saltare la funzione se si accede da sito

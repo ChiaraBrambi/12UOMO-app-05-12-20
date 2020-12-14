@@ -15,8 +15,8 @@ let sotto_divieto1 = 'Mantenere gesti e volume controllati: non sarà necessario
 let sotto_divieto2 = 'sbracciarsi o fare schiamazzi di alcun tipo.'
 let step = 'step 1/3';
 
-let bonus_preso = 1;
-let contBonus = 12; //conta quando p_coord arriva a 100
+// let bonus_preso = 1;
+// let contBonus = 12; //conta quando p_coord arriva a 100
 
 // RICEZIONE BONUS
 socket.on("bonusIn", bonusServer);
@@ -62,6 +62,10 @@ function setup() {
 
 /////////////////////////////////////////////////////////////////////////
 function draw() {
+  // //EMIT BONUS
+  //   socket.emit("bonusOut", contBonus);
+  //   socket.emit("bonusTotOut", bonus_preso);
+
   //CONTATORE i DEL TEMPO
   if (frameCount % 2 == 0) { //multiplo di 50 incrementa i
     i++;
@@ -70,9 +74,6 @@ function draw() {
   w = width / 20;
   h = height / 50;
 
-  //EMIT BONUS
-    socket.emit("bonusOut", contBonus);
-    socket.emit("bonusTotOut", bonus_preso);
 
   if (i > 1 && pag == 0) {
     background('#F9F9F9'); //chiaro

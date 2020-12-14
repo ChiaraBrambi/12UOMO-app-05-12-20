@@ -8,6 +8,7 @@ function preload() {
   //benvenuto = loadImage("./assets/immagini/benvenuto.png"); //trombetta chiara
 }
 /////////////////////////////////////////////////////////////////////////
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
   frameRate(15); //rallenta

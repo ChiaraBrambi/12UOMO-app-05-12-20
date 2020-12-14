@@ -114,6 +114,10 @@ function setup() {
 /////////////////////////////////////////////////////////////////////////////
 
 function draw() {
+  //EMIT BONUS
+    //socket.emit("bonusOut", contBonus);
+    //socket.emit("bonusTotOut", bonus_preso);
+
   background('#F9F9F9'); //chiaro
   imageMode(CENTER); //per pittogrammi
   noStroke();
@@ -169,10 +173,6 @@ function draw() {
 
     ellipse(w + s, h * 45.5, 15);
     s = 25 * i;
-
-    //EMIT BONUS
-      socket.emit("bonusOut", contBonus);
-      socket.emit("bonusTotOut", bonus_preso);
   }
 
   /////////////////// LA PARTE SOPRA è STANDARD ///////////////////////////////////////////////

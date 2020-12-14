@@ -39,8 +39,8 @@ let gif_daspo;
 
 // variabili BONUS ////////////////////////////////////////////////////////////////////
 // se totale bonus apri un altra schermata
-let bonus_preso; //se i bonus sono tutti attivi apri un altra parte di sketch
-let contBonus; //conta quando p_coord arriva a 100
+let bonus_preso = 0; //se i bonus sono tutti attivi apri un altra parte di sketch
+let contBonus = 0; //conta quando p_coord arriva a 100
 
 ////////////////COMUNICAZIONE SERVER/////////////////////////////////////
 // RICEZIONE
@@ -61,12 +61,14 @@ socket.on("bonusIn", bonusServer);
 socket.on("bonusTotIn", bonusTotale_Ok);
 
 // UPDATE DA SERVER BONUS
-function bonusServer(dataReceived) {
-  contBonus = dataReceived; //assegna a contBonus dati da server
+function bonusServer(data1) {
+  console.log(data1 + ' bonus a caso');
+  contBonus = data1; //assegna a contBonus dati da server
 }
 
-function bonusTotale_Ok(dataReceived) {
-  bonus_preso = dataReceived; //assegna a contBonus dati da server
+function bonusTotale_Ok(data2) {
+  console.log(data2 + ' bonus tot ');
+  bonus_preso = data2; //assegna a contBonus dati da server
 }
 
 
@@ -116,6 +118,10 @@ let bonusTot;
 
 /////////////////////////////////////////////////////////////////////////
 function draw() {
+//EMIT BONUS
+ socket.emit("bonusOut", contBonus);
+ socket.emit("bonusTotOut", bonus_preso);
+
   background('#F9F9F9'); //chiaro
   imageMode(CENTER); //per pittogrammi
   noStroke();
@@ -161,7 +167,7 @@ function draw() {
   if (p_coord === 80) {
     contBonus++;
   }
-  console.log('BONUS CONTATOR:' + contBonus);
+//  console.log('BONUS CONTATOR:' + contBonus);
 
   //pallini BONUS
   for (let i = 0; i < 6; i++) { // ogni 4 da il bonus
@@ -212,10 +218,7 @@ function draw() {
     }
     ellipse(w + s, h * 45.5, 15);
     s = 25 * i;
-
-    //EMIT BONUS
-      socket.emit("bonusOut", contBonus);
-      socket.emit("bonusTotOut", bonus_preso); ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   }
   ///////////////////////////////////////////////////////////////
 
@@ -330,7 +333,7 @@ function draw() {
   console.log("tempo daspo " + incremento_daspo)
 
   ///////cambio cartella //////////////////////////////////////////////////
-  if (i == 30) {
+  if (testo == 170) {
     window.open('../indexPausa.html', '_self'); //doppio puntino per andare nella cartella sopra
   }
   //////////////////////////////////////////////////////////////////
