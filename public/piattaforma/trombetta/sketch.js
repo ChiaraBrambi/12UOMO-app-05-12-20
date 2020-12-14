@@ -22,7 +22,6 @@ let alt = 1; //h dei rettangoli suono
 let i = 0; //regola ogni quanto cambia alt
 let p_coord = 0; //var coordinazione
 
-
 let feed_piattaforma = 0; //var piattaforma: quando alt!=1 viene incrementata
 let input_utente = 200 //var utente usa la trobetta, preme bottone
 
@@ -112,9 +111,6 @@ function setup() {
   b2.mousePressed(dispPausa);
   b2.id('pauseBtn');
 }
-
-
-let bonusTot;
 
 /////////////////////////////////////////////////////////////////////////
 function draw() {
