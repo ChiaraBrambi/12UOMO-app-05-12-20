@@ -42,8 +42,8 @@ function draw(){
 }
 /////////////////////////////////////////////////////////////////////////
 
-function mouseClicked() {
-  window.open('benvenuto/index.html', '_self');
+function mouseClicked() {//da programmare di saltare la funzione se si accede da sito
+  window.open('codice_partita/index.html', '_self');
 }
 /////////////////////////////////////////////////////////////////////
 
