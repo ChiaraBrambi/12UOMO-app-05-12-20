@@ -1,3 +1,6 @@
+// VAR SERVER
+let socket = io(); //setting server
+
 let logoIcon, benvenuto, imm_condizioni;
 let b1, b2, button_text, testo_privacy, stadio;
 let imm1, imm2, imm3, imm4, strumenti;
@@ -11,6 +14,21 @@ let divieto = 'ELOGIA IL CONTENIMENTO';
 let sotto_divieto1 = 'Mantenere gesti e volume controllati: non sarà necessario'
 let sotto_divieto2 = 'sbracciarsi o fare schiamazzi di alcun tipo.'
 let step = 'step 1/4';
+
+let bonus_preso = 1;
+let contBonus = 12; //conta quando p_coord arriva a 100
+// RICEZIONE BONUS
+socket.on("bonusIn", bonusServer);
+socket.on("bonusTotIn", bonusTotale_Ok);
+
+// UPDATE DA SERVER BONUS
+function bonusServer(dataReceived) {
+  contBonus = dataReceived; //assegna a contBonus dati da server
+}
+
+function bonusTotale_Ok(dataReceived) {
+  bonus_preso = dataReceived; //assegna a contBonus dati da server
+}
 /////////////////////////////////////////////////////////////////////////
 
 function preload() {
@@ -23,7 +41,7 @@ function preload() {
   imm3 = loadImage("./assets/avversione.png");
   imm4 = loadImage("./assets/scaramanzia.png");
   testo_privacy = loadImage("./assets/testo.png");
-  strumenti = loadImage("./assets/ogg.png");
+  strumenti = loadImage("./assets/strumenti.png");
 
 }
 
@@ -41,12 +59,16 @@ function setup() {
 /////////////////////////////////////////////////////////////////////////
 function draw() {
   //CONTATORE i DEL TEMPO
-  if (frameCount % 15 == 0) { //multiplo di 50 incrementa i
+  if (frameCount % 2 == 0) { //multiplo di 50 incrementa i
     i++;
   }
 
   w = width / 20;
   h = height / 50;
+
+  //EMIT BONUS
+    socket.emit("bonusOut", contBonus);
+    socket.emit("bonusTotOut", bonus_preso);
 
   if (i > 1 && pag == 0) {
     background('#F9F9F9'); //chiaro
@@ -306,6 +328,7 @@ function draw() {
     text('INIZIA UNA VERA ESPERIENZA DI TIFO', w * 10, h * 39);
     pop();
   } else if (pag == 9) {
+    background('#887b86'); //scuro
     window.open('../indexPausa.html', '_self');
   }
 }
@@ -327,8 +350,6 @@ function back() {
   pag--;
 }
 
-//function pagina(){ pag++;}
-
 /////////////////////////////////////////////////////////////////////////////
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
@@ -336,10 +357,3 @@ function windowResized() {
   imageMode(CENTER); //per pittogrammi
   image(logoIcon, width / 2, height / 2, logoIcon.width / 7, logoIcon.height / 7);
 }
-
-// h1= createP('Benvenuto,');
-// h1.position( 0 ,  h * 11 );
-// h1.style('color','#877B85');
-// h2= createP('Dodicesimo Uomo');
-// h2.position( 0,  h * 13);
-// h2.style('color','#B7AEB5')
